@@ -1,3 +1,12 @@
+## [1.34.7](https://github.com/CoCreate-app/CoCreate-crud-client/compare/v1.34.6...v1.34.7) (2026-07-11)
+
+
+### Bug Fixes
+
+* bump package versions ([8c6d84f](https://github.com/CoCreate-app/CoCreate-crud-client/commit/8c6d84f974e73067f8284243b41a303b02af9233))
+* removed post install and add add packages to apprved list ([15e61f0](https://github.com/CoCreate-app/CoCreate-crud-client/commit/15e61f0c02d9e7d1ac519f5511cfa2ddd425d1ab))
+* semantic version handling ([ba3ea9e](https://github.com/CoCreate-app/CoCreate-crud-client/commit/ba3ea9e0ead2c860ebd39c44854ebe3b01c91b1e))
+
 ## [1.34.6](https://github.com/CoCreate-app/CoCreate-crud-client/compare/v1.34.5...v1.34.6) (2026-02-28)
 
 
