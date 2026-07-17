@@ -16,9 +16,9 @@
     "access": "public"
   },
   "scripts": {
-    "start": "npx webpack --config webpack.config.js",
-    "build": "npx webpack --mode=production --config webpack.config.js",
-    "dev": "npx webpack --config webpack.config.js --watch"
+    "start": "webpack --config webpack.config.js",
+    "build": "webpack --mode=production --config webpack.config.js",
+    "dev": "webpack --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -36,12 +36,12 @@
   },
   "main": "./src/index.js",
   "dependencies": {
-    "@cocreate/indexeddb": "^1.23.4",
-    "@cocreate/socket-client": "^1.40.5",
+    "@cocreate/indexeddb": "^1.24.0",
+    "@cocreate/socket-client": "^1.41.0",
     "@cocreate/uuid": "^1.12.4"
   },
   "devDependencies": {
-    "@cocreate/webpack": "^1.4.3"
+    "@cocreate/webpack": "^1.6.0"
   },
   "allowScripts": {
     "@cocreate/actions@1.21.4": true,
