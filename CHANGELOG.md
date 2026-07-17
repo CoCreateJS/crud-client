@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/CoCreate-app/CoCreate-crud-client/compare/v1.34.7...v1.35.0) (2026-07-17)
+
+
+### Features
+
+* update automated workflow and release configuration for improved semantic release handling ([13498d8](https://github.com/CoCreate-app/CoCreate-crud-client/commit/13498d8ca54eb219e2262940fcfc0ff9b43a71a9))
+
 ## [1.34.7](https://github.com/CoCreate-app/CoCreate-crud-client/compare/v1.34.6...v1.34.7) (2026-07-11)
 
 
