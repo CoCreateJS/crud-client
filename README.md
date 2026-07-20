@@ -1,91 +1,271 @@
-# CoCreate-crud-client
+# @cocreate/crud-client
 
-Create, read, update and delete muiltiple documents across multiple collections, across multiple databases. Distribute data and sync across clients and databases. Works offline. Easily configured using HTML5 attributes and/or JavaScript API. Take it for a spin in our [playground!](https://cocreate.app/docs/crud-client)
+A high-performance, database-agnostic client-side CRUD engine for querying, synchronizing, and persisting application data using a single unified payload object. It provides an offline-first architecture, transparent synchronization between local and remote storage providers, and seamless integration with the CoCreate real-time collaboration ecosystem. A single CRUD request can target one or many storage providers simultaneously, allowing applications to maintain synchronized data across distributed databases with minimal application logic.
 
-![minified](https://img.badgesize.io/https://cdn.cocreate.app/crud-client/latest/CoCreate-crud-client.min.js?style=flat-square&label=minified&color=orange)
-![gzip](https://img.badgesize.io/https://cdn.cocreate.app/crud-client/latest/CoCreate-crud-client.min.js?compression=gzip&style=flat-square&label=gzip&color=yellow)
-![brotli](https://img.badgesize.io/https://cdn.cocreate.app/crud-client/latest/CoCreate-crud-client.min.js?compression=brotli&style=flat-square&label=brotli)
-![GitHub latest release](https://img.shields.io/github/v/release/CoCreate-app/CoCreate-crud-client?style=flat-square)
-![License](https://img.shields.io/github/license/CoCreate-app/CoCreate-crud-client?style=flat-square)
-![Hiring](https://img.shields.io/static/v1?style=flat-square&label=&message=Hiring&color=blueviolet)
+---
 
-![CoCreate-crud-client](https://cdn.cocreate.app/docs/CoCreate-crud-client.gif)
+## Documentation
 
-## [Docs & Demo](https://cocreate.app/docs/crud-client)
+For complete API references, storage adapter configuration, synchronization strategies, and advanced examples, refer to the CoCreate CRUD Client documentation.
 
-For a complete guide and working demo refer to the [doumentation](https://cocreate.app/docs/crud-client)
+## Table of Contents
 
-## CDN
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+* [How it Works](#how-it-works)
+* [Architecture and Payload Specs](#architecture-and-payload-specs)
+* [Offline Synchronization](#offline-synchronization)
+* [Storage Providers](#storage-providers)
+* [Announcements](#announcements)
+* [Roadmap](#roadmap)
+* [How to Contribute](#how-to-contribute)
+* [License](#license)
 
-```html
-<script src="https://cdn.cocreate.app/crud-client/latest/CoCreate-crud-client.min.js"></script>
+---
+
+## Features
+
+* **Unified CRUD API:** Create, read, update, and delete data using a consistent payload structure regardless of the underlying storage provider.
+* **Multi-Storage Execution:** Execute a single CRUD operation against one or many storage providers simultaneously.
+* **Parallel Database Synchronization:** When multiple storage providers are specified, operations execute concurrently to keep distributed databases synchronized.
+* **Offline-First Architecture:** Continue reading and writing data while offline using local storage providers.
+* **Real-Time Synchronization:** Seamlessly integrates with the CoCreate Socket ecosystem to synchronize data across clients and servers.
+* **Database Agnostic:** Supports IndexedDB, SQLite, MongoDB, PostgreSQL, MySQL, Firestore, and additional adapters through a unified payload format.
+* **Optimistic Updates:** Local operations execute immediately while remote synchronization occurs in the background.
+* **Stateless Operations:** Every CRUD request is completely self-contained, making requests easy to serialize, queue, retry, and replay.
+
+---
+
+## Installation
+
+```bash
+npm install @cocreate/crud-client
 ```
 
-```html
-<script src="https://cdn.cocreate.app/crud-client/latest/CoCreate-crud-client.min.css"></script>
+---
+
+## Usage
+
+### Initialize the Client
+
+```javascript
+import crud from "@cocreate/crud-client";
+
+await crud.init({
+	organization_id: "64b9a32e18f21bc56789abcd",
+	host: window.location.host
+});
 ```
 
-## NPM
+---
 
-```shell
-$ npm i @cocreate/crud-client
+### Read Data
+
+```javascript
+const response = await crud.send({
+	method: "object.read",
+	array: "users"
+});
+
+console.log(response);
 ```
 
-## yarn
+---
 
-```shell
-$ yarn install @cocreate/crud-client
+### Read from a Specific Storage Provider
+
+```javascript
+const response = await crud.send({
+	method: "object.read",
+	array: "users",
+	storage: "mongodb"
+});
 ```
 
-# Table of Contents
+When `storage` is a string, the operation executes only against the specified storage provider.
 
--   [Table of Contents](#table-of-contents)
--   [Announcements](#announcements)
--   [Roadmap](#roadmap)
--   [How to Contribute](#how-to-contribute)
--   [About](#about)
--   [License](#license)
+---
 
-<a name="announcements"></a>
+### Create Data in a Single Storage Provider
 
-# Announcements
+```javascript
+await crud.send({
+	method: "object.create",
+	array: "users",
+	storage: "mongodb",
+	object: [{
+		name: "John Doe",
+		email: "john@example.com"
+	}]
+});
+```
 
-All updates to this library are documented in our [CHANGELOG](https://github.com/CoCreate-app/CoCreate-crud-client/blob/master/CHANGELOG.md) and [releases](https://github.com/CoCreate-app/CoCreate-crud-client/releases). You may also subscribe to email for releases and breaking changes.
+---
 
-<a name="roadmap"></a>
+### Create Data in Multiple Storage Providers
 
-# Roadmap
+```javascript
+await crud.send({
+	method: "object.create",
+	array: "users",
+	storage: [
+		"mongodb",
+		"sqlite"
+	],
+	object: [{
+		name: "John Doe",
+		email: "john@example.com"
+	}]
+});
+```
 
-If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/CoCreate-app/CoCreate-crud-client/issues) and [pull requests](https://github.com/CoCreate-app/CoCreate-crud-client/pulls). We would love to hear your feedback.
+When `storage` is an array, the same payload is executed in parallel across every matching storage provider. This allows applications to synchronize data across multiple databases using a single CRUD request.
 
-<a name="about"></a>
+---
 
-# About
+### Update Data
 
-CoCreate-crud-client is guided and supported by the CoCreate Developer Experience Team.
+```javascript
+await crud.send({
+	method: "object.update",
+	array: "users",
+	storage: [
+		"mongodb",
+		"sqlite"
+	],
+	object: [{
+		_id: "64b9a32e18f21bc56789abcd",
+		status: "active"
+	}]
+});
+```
 
-Please Email the Developer Experience Team [here](mailto:develop@cocreate.app) in case of any queries.
+---
 
-CoCreate-crud-client is maintained and funded by CoCreate. The names and logos for CoCreate are trademarks of CoCreate, LLC.
+### Delete Data
 
-<a name="contribute"></a>
+```javascript
+await crud.send({
+	method: "object.delete",
+	array: "users",
+	storage: "mongodb",
+	object: [{
+		_id: "64b9a32e18f21bc56789abcd"
+	}]
+});
+```
 
-# How to Contribute
+---
 
-We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](https://github.com/CoCreate-app/CoCreate-crud-client/blob/master/CONTRIBUTING.md) guide for details.
+## How it Works
 
-We want this library to be community-driven, and CoCreate led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/CoCreate-app/CoCreate-crud-client/issues) and [pull requests](https://github.com/CoCreate-app/CoCreate-crud-client/pulls) or merely upvote or comment on existing issues or pull requests.
+1. Every CRUD request is expressed as a standardized payload object.
+2. The client determines which storage providers should process the request.
+3. Local providers execute immediately for fast application responsiveness.
+4. Remote providers transmit requests through the active CoCreate communication layer.
+5. When multiple storage providers are specified, operations execute concurrently.
+6. Responses are normalized into a consistent result regardless of the underlying database technology.
+7. Offline mutations are queued automatically and synchronized once connectivity is restored.
 
-We appreciate your continued support, thank you!
+---
 
-<a name="license"></a>
+## Architecture and Payload Specs
 
-# License
+### Unified Payload Object Schema
+
+| Property          | Type                      | Description                                                                                                    |
+| ----------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `method`          | `String`                  | CRUD operation (`object.create`, `object.read`, `object.update`, `object.delete`, `array.read`, etc.).         |
+| `array`           | `String`                  | Collection, table, or dataset name.                                                                            |
+| `object`          | `Array<Object>`           | Documents to create, update, or delete.                                                                        |
+| `storage`         | `String \| Array<String>` | Target storage provider(s). When an array is provided, all matching providers execute the request in parallel. |
+| `$filter`         | `Object`                  | Query filters, limits, sorting, indexes, projections, and search criteria.                                     |
+| `organization_id` | `String`                  | Multi-tenant workspace identifier.                                                                             |
+
+---
+
+## Offline Synchronization
+
+The CRUD Client follows an offline-first execution model.
+
+When connectivity is unavailable:
+
+* Reads continue using local storage providers.
+* Writes are committed locally.
+* Pending mutations are automatically queued.
+* Queued operations synchronize when connectivity returns.
+* Applications remain responsive without requiring constant network connectivity.
+
+---
+
+## Storage Providers
+
+The `storage` property determines where CRUD operations execute.
+
+A storage may reference a configured provider such as MongoDB, SQLite, IndexedDB, PostgreSQL, or any custom adapter.
+
+```javascript
+storage: "primary"
+```
+
+Storage names are aliases defined by your application configuration.
+
+Multiple storage providers can be targeted simultaneously.
+
+```javascript
+storage: [
+	"primary",
+	"backup",
+	"analytics"
+]
+```
+
+or
+
+```javascript
+storage: [
+	"mongodb",
+	"sqlite"
+]
+```
+
+When an array of storage providers is supplied, the CRUD Client executes the same operation concurrently across every matching provider, allowing applications to maintain synchronized data across multiple databases with a single request.
+
+---
+
+## Announcements
+
+Release notes, new features, breaking changes, and migration guides are published in the project's CHANGELOG and GitHub Releases.
+
+---
+
+## Roadmap
+
+Upcoming enhancements include:
+
+* CRDT-based conflict resolution
+* Background synchronization workers
+* Delta synchronization
+* Transaction batching
+* Graph query support
+* Pluggable storage adapters
+* Edge synchronization
+* Advanced conflict resolution strategies
+
+---
+
+## How to Contribute
+
+We encourage contributions to our libraries (you might even score some nifty swag). Please see our **CONTRIBUTING.md** guide for details. We want this library to be community-driven and CoCreate-led.
+
+Help prioritize development by creating issues, submitting pull requests, reviewing existing discussions, or participating in feature requests.
+
+---
+
+## License
 
 This software is dual-licensed under the GNU Affero General Public License version 3 (AGPLv3) and a commercial license.
 
--   **Open Source Use**: For open-source projects and non-commercial use, this software is available under the AGPLv3. The AGPLv3 allows you to freely use, modify, and distribute this software, provided that all modifications and derivative works are also licensed under the AGPLv3. For the full license text, see the [LICENSE file](https://github.com/CoCreate-app/CoCreate-crud-client/blob/master/LICENSE).
-
--   **Commercial Use**: For-profit companies and individuals intending to use this software for commercial purposes must obtain a commercial license. The commercial license is available when you sign up for an API key on our [website](https://cocreate.app). This license permits proprietary use and modification of the software without the copyleft requirements of the AGPLv3. It is ideal for integrating this software into proprietary commercial products and applications.
-
-If you have not purchased a commercial license and intend to use this software for commercial purposes, you are required to sign up for an API key on our website.
+* **Open Source Use:** For open-source projects and non-commercial use, this software is available under the AGPLv3. For the full license text, see the LICENSE file.
+* **Commercial Use:** Commercial organizations intending to use this software outside the AGPL requirements must obtain a commercial license through CoCreate.
