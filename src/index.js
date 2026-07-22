@@ -167,7 +167,7 @@ const CoCreateCRUD = {
     sync: async function (data) {
         if (
             dbInstance &&
-            data.uid &&
+            data.uuid &&
             data.status &&
             data.status == "received" &&
             !data.synced
