@@ -37,7 +37,7 @@ let dbInstance = null;
 // Dynamic environmental lazy loading of browser-only storage engines (IndexedDB)
 // using a non-awaited promise chain to avoid Node.js require() async errors.
 if (isBrowser) {
-    import("../../../CoCreate-storages/CoCreate-indexeddb/src")
+    import("@cocreate/indexeddb")
         .then((indexeddbModule) => {
             const rawIndexeddb = indexeddbModule.default || indexeddbModule;
             dbInstance = rawIndexeddb && (rawIndexeddb.default || rawIndexeddb);
