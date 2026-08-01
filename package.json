@@ -52,11 +52,11 @@
   "type": "module",
   "main": "./src/index.js",
   "dependencies": {
-    "@cocreate/indexeddb": "^1.25.0",
-    "@cocreate/socket-client": "^1.42.0"
+    "@cocreate/indexeddb": "^1.26.0",
+    "@cocreate/socket-client": "^1.42.1"
   },
   "devDependencies": {
-    "@cocreate/webpack": "^1.7.0"
+    "@cocreate/webpack": "^1.8.0"
   },
   "allowScripts": {
     "@cocreate/actions@1.21.4": true,
