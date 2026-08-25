@@ -13,7 +13,7 @@ Fork the [project on Github](https://github.com/CoCreate-app/CoCreate-crud-clien
 ```
 git crud-client https://github.com/contributor/CoCreate-crud-client.git
 cd CoCreate-crud-client
-git remote add upstream https://github.com/CoCreate-app/CoCreate-crud-client.git
+git remote add upstream https://gitlab.com/cocreatejs/CoCreate-crud-client.git
 ```
 
 ## Create a Topic Branch
