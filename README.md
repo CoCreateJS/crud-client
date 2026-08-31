@@ -180,7 +180,7 @@ await crud.send({
 | `array`           | `String`                  | Collection, table, or dataset name.                                                                            |
 | `object`          | `Array<Object>`           | Documents to create, update, or delete.                                                                        |
 | `storage`         | `String \| Array<String>` | Target storage provider(s). When an array is provided, all matching providers execute the request in parallel. |
-| `$filter`         | `Object`                  | Query filters, limits, sorting, indexes, projections, and search criteria.                                     |
+| `filter`         | `Object`                  | Query filters, limits, sorting, indexes, projections, and search criteria.                                     |
 | `organization_id` | `String`                  | Multi-tenant workspace identifier.                                                                             |
 
 ---
