@@ -74,14 +74,14 @@ const CoCreateCRUD = {
             if (!data.organization_id) {
                 data.organization_id = await this.socket.organization_id();
             }
-                
+
             if (!data.user_id) {
                 data.user_id = await this.socket.user_id;
             }
 
             if (data.database || data.array || data.type) {
                 if (!data.storage) {
-                    data["storage"] = ["indexeddb", "mongodb"];
+                    data["storage"] = ["mongodb"];
                 }
                 // TODO: if (!data.database, config.database) config will work in client and server or localStorage.database.
                 if (!data.database) {
@@ -99,12 +99,12 @@ const CoCreateCRUD = {
 
                 let type = data.method.split(".")[0];
                 if (
-                    !this.socket.connected || 
+                    !this.socket.connected ||
                     (data.status !== "await" &&
-                    type &&
-                    response &&
-                    response[type] &&
-                    response[type].length)
+                        type &&
+                        response &&
+                        response[type] &&
+                        response[type].length)
                 ) {
                     if (
                         type === "object" &&
@@ -124,10 +124,10 @@ const CoCreateCRUD = {
                     data.status !== "await" &&
                     (typeof data["storage"] === "string" ||
                         (Array.isArray(data["storage"]) &&
-                            data["storage"].length > 1))
+                            data["storage"].length === 1))
                 ) {
                     return resolve(response);
-                } 
+                }
             }
 
             if (!response || response.status !== "resolve") {
@@ -176,7 +176,7 @@ const CoCreateCRUD = {
                 (data.host && data.host.startsWith("dev.")) ||
                 data.host.startsWith("test.")
             ) {
-                data.database = data.organization_id;
+                // data.database = data.organization_id;
             }
 
             if (data.method.endsWith(".read")) {
