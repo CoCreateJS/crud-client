@@ -31,7 +31,7 @@ async function testObjects() {
             test: 'yep1',
             top: 'qwerty',
             sports: { basketball: { teams: ['lakers'] } },
-            $filter: {
+            filter: {
                 query: { organization_id: "5ff747727005da1c272740ab" }
             }
         }
@@ -43,7 +43,7 @@ async function testObjects() {
         database: ['testDB', 'testDB1', 'testDB2'],
         array: ['testCollection', 'testCollection1', 'testCollection2'],
         object: {
-            $filter: {
+            filter: {
                 query: { organization_id: "5ff747727005da1c272740ab" }
             }
         }

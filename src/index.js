@@ -277,12 +277,12 @@ const CoCreateCRUD = {
 
                 // TODO: returned from server socket.send authorize perhaps requires a flag so that it can be removed after authorization..
                 if (
-                    data.$filter &&
-                    data.$filter.query &&
-                    data.$filter.query._id &&
-                    data.$filter.query._id.$eq === "$user_id"
+                    data.filter &&
+                    data.filter.query &&
+                    data.filter.query._id &&
+                    data.filter.query._id.$eq === "$user_id"
                 ) {
-                    data.$filter.query._id.$eq = this.socket.user_id;
+                    data.filter.query._id.$eq = this.socket.user_id;
                 }
 
                 this.socket.sendLocalMessage(data);
