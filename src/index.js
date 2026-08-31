@@ -79,14 +79,8 @@ const CoCreateCRUD = {
                 data.user_id = await this.socket.user_id;
             }
 
-            if (data.database || data.array || data.type) {
-                if (!data.storage) {
-                    data["storage"] = ["mongodb"];
-                }
-                // TODO: if (!data.database, config.database) config will work in client and server or localStorage.database.
-                if (!data.database) {
-                    data["database"] = data.organization_id;
-                }
+            if (!data.database) {
+                data.database = data.organization_id;
             }
 
             let response;
@@ -172,13 +166,6 @@ const CoCreateCRUD = {
             data.status == "received" &&
             !data.synced
         ) {
-            if (
-                (data.host && data.host.startsWith("dev.")) ||
-                data.host.startsWith("test.")
-            ) {
-                // data.database = data.organization_id;
-            }
-
             if (data.method.endsWith(".read")) {
                 if (this.socket.has(data.socketId)) {
                     const self = this;
