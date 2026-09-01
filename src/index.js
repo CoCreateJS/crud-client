@@ -87,7 +87,7 @@ const CoCreateCRUD = {
             if (
                 isBrowser &&
                 dbInstance &&
-                data["storage"].includes("indexeddb")
+                data["storage"]?.includes("indexeddb")
             ) {
                 response = await dbInstance.send(data);
 
