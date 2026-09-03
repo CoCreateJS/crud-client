@@ -49,7 +49,13 @@ if (isBrowser) {
 
 const CoCreateCRUD = {
     socket: CoCreateSocket,
-
+    database: isBrowser
+        ? window.location.hostname.startsWith("dev.")
+            ? "dev"
+            : window.location.hostname.startsWith("test.")
+                ? "test"
+                : ""
+        : "",
     /**
      * Performs a crud action using the define method.
      *
@@ -78,15 +84,13 @@ const CoCreateCRUD = {
             data.user_id = await this.socket.user_id;
         }
 
-        if (!data.database) {
-            data.database = data.organization_id;
+        if (!data.database && this.database) {
+            data.database = this.database;
         }
 
         let response;
         if (
-            isBrowser &&
-            dbInstance &&
-            data["storage"]?.includes("indexeddb")
+            isBrowser && dbInstance
         ) {
             response = await dbInstance.send(data);
 
@@ -140,6 +144,10 @@ const CoCreateCRUD = {
     },
 
     sync: async function (data) {
+        if (!data.database && this.database) {
+            data.database = this.database;
+        }
+
         if (
             dbInstance &&
             data.uuid &&
@@ -182,6 +190,9 @@ const CoCreateCRUD = {
                                 user_id: data.user_id,
                                 organization_id: data.organization_id
                             };
+                            if (data.database) {
+                                response.database = data.database;
+                            }
 
                             if (type === "object") {
                                 response[type] = {
