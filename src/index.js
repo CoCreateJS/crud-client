@@ -57,83 +57,64 @@ const CoCreateCRUD = {
      * @param {Object} data - Configuration and parameters payload
      * @return {Promise} The data read from the defined db's. Errors are logged and can be found in the data object
      */
-    send: function (data) {
-        return new Promise(async (resolve, reject) => {
-            if (!data) return resolve(null);
-            if (!data.method) {
-                // TODO: errorhandler(data, 'data.method is required')
-                return resolve(data);
-            }
+    send: async function (data) {
+        if (!data) return null;
+        if (!data.method) {
+            // TODO: errorhandler(data, 'data.method is required')
+            return data;
+        }
 
-            data.timeStamp = new Date().toISOString();
+        data.timeStamp = new Date().toISOString();
 
-            if (data.method.endsWith(".read")) {
-                data.broadcast = data.broadcastBrowser = false;
-            }
+        if (data.method.endsWith(".read")) {
+            data.broadcast = data.broadcastClient = false;
+        }
 
-            if (!data.organization_id) {
-                data.organization_id = await this.socket.organization_id();
-            }
+        if (!data.organization_id) {
+            data.organization_id = await this.socket.organization_id();
+        }
 
-            if (!data.user_id) {
-                data.user_id = await this.socket.user_id;
-            }
+        if (!data.user_id) {
+            data.user_id = await this.socket.user_id;
+        }
 
-            if (!data.database) {
-                data.database = data.organization_id;
-            }
+        if (!data.database) {
+            data.database = data.organization_id;
+        }
 
-            let response;
+        let response;
+        if (
+            isBrowser &&
+            dbInstance &&
+            data["storage"]?.includes("indexeddb")
+        ) {
+            response = await dbInstance.send(data);
+
+            const type = data.method.split(".")[0];
             if (
-                isBrowser &&
-                dbInstance &&
-                data["storage"]?.includes("indexeddb")
+                !this.socket.connected ||
+                (type && response?.[type]?.length)
             ) {
-                response = await dbInstance.send(data);
-
-                let type = data.method.split(".")[0];
                 if (
-                    !this.socket.connected ||
-                    (data.status !== "await" &&
-                        type &&
-                        response &&
-                        response[type] &&
-                        response[type].length)
+                    type !== "object" ||
+                    response.object[0].organization_id
                 ) {
-                    if (
-                        type === "object" &&
-                        response.object.length === 1 &&
-                        !response.object[0].organization_id
-                    ) {
-                        // Bypass resolving unassigned models
-                    } else {
-                        resolve(response);
-                        response.status = "resolve";
-                        response.resolved = true;
-
-                        this.socket.send(response);
-                        return;
-                    }
-                } else if (
-                    data.status !== "await" &&
-                    (typeof data["storage"] === "string" ||
-                        (Array.isArray(data["storage"]) &&
-                            data["storage"].length === 1))
-                ) {
-                    return resolve(response);
+                    this.socket.send(response);
+                    return response;
                 }
+            } else if (
+                typeof data["storage"] === "string" ||
+                (Array.isArray(data["storage"]) &&
+                    data["storage"].length === 1)
+            ) {
+                return response;
             }
+        }
 
-            if (!response || response.status !== "resolve") {
-                this.socket.send(response || data).then((response) => {
-                    resolve(response);
-                });
-            }
-        });
+        return this.socket.send(response || data);
     },
 
     listen: function (method, callback) {
-        // TODO: this.socket.listen('crud.' + method, callback);
         this.socket.listen(method, callback);
     },
 
@@ -167,7 +148,7 @@ const CoCreateCRUD = {
             !data.synced
         ) {
             if (data.method.endsWith(".read")) {
-                if (this.socket.has(data.socketId)) {
+                if (this.socket.frameId === data.frameId) {
                     const self = this;
                     let type = data.method.split(".")[0];
                     if (!data[type] || !data[type].length) return;
@@ -255,25 +236,11 @@ const CoCreateCRUD = {
                     }
                 }
             } else if (
-                this.socket.clientId != data.clientId ||
-                data.updateDB
+                this.socket.frameId === data.receiverFrameId &&
+                (this.socket.clientId != data.clientId || data.updateDB)
             ) {
                 data.synced = true;
-                // TODO: if database was updated due to host and environment handling
-                if (data.updateDB) data.database = data.organization_id;
-
-                // TODO: returned from server socket.send authorize perhaps requires a flag so that it can be removed after authorization..
-                if (
-                    data.filter &&
-                    data.filter.query &&
-                    data.filter.query._id &&
-                    data.filter.query._id.$eq === "$user_id"
-                ) {
-                    data.filter.query._id.$eq = this.socket.user_id;
-                }
-
-                this.socket.sendLocalMessage(data);
-                dbInstance.send({ ...data });
+                await dbInstance.send({ ...data });
             }
         }
     },
@@ -374,7 +341,7 @@ if (isBrowser) {
         listen: "isListen",
         broadcast: "broadcast",
         "broadcast-sender": "broadcastSender",
-        "broadcast-browser": "broadcastBrowser",
+        "broadcast-client": "broadcastClient",
         room: "room",
         state_id: "state_id",
         "state-overwrite": "stateOverwrite"
