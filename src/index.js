@@ -353,6 +353,7 @@ if (isBrowser) {
         broadcast: "broadcast",
         "broadcast-sender": "broadcastSender",
         "broadcast-client": "broadcastClient",
+        namespace: "namespace",
         room: "room",
         state_id: "state_id",
         "state-overwrite": "stateOverwrite"
