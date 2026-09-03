@@ -101,7 +101,7 @@ const CoCreateCRUD = {
             ) {
                 if (
                     type !== "object" ||
-                    response.object[0].organization_id
+                    response.object[0]?.organization_id
                 ) {
                     this.socket.send(response);
                     return response;
