@@ -72,10 +72,6 @@ const CoCreateCRUD = {
 
         data.timeStamp = new Date().toISOString();
 
-        if (data.method.endsWith(".read")) {
-            data.broadcast = data.broadcastClient = false;
-        }
-
         if (!data.organization_id) {
             data.organization_id = await this.socket.organization_id();
         }
@@ -252,6 +248,7 @@ const CoCreateCRUD = {
             ) {
                 data.synced = true;
                 await dbInstance.send({ ...data });
+                self.socket.sendLocalMessage(response);
             }
         }
     },
@@ -354,9 +351,7 @@ if (isBrowser) {
         "broadcast-sender": "broadcastSender",
         "broadcast-client": "broadcastClient",
         namespace: "namespace",
-        room: "room",
-        state_id: "state_id",
-        "state-overwrite": "stateOverwrite"
+        room: "room"
     };
 
     if (!window.CoCreateConfig) window.CoCreateConfig = { attributes };
