@@ -248,7 +248,7 @@ const CoCreateCRUD = {
             ) {
                 data.synced = true;
                 await dbInstance.send({ ...data });
-                self.socket.sendLocalMessage(response);
+                // self.socket.sendLocalMessage(response);
             }
         }
     },
