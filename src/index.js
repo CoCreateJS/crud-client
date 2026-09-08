@@ -210,6 +210,7 @@ const CoCreateCRUD = {
                             ) {
                                 response.method = type + ".create";
                                 response[type] = data[type][i];
+                                response.synced = true;
                                 response = await dbInstance.send(response);
 
                                 self.socket.sendLocalMessage(response);
@@ -234,6 +235,7 @@ const CoCreateCRUD = {
                                 if (dataValue < queryValue) {
                                     response.method = type + ".update";
                                     response[type] = data[type][i];
+                                    response.synced = true;
                                     response = await dbInstance.send(response);
 
                                     self.socket.sendLocalMessage(response);
@@ -243,8 +245,7 @@ const CoCreateCRUD = {
                     }
                 }
             } else if (
-                this.socket.frameId === data.receiverFrameId &&
-                (this.socket.clientId != data.clientId || data.updateDB)
+                !data.synced && this.socket.frameId === data.receiverFrameId
             ) {
                 data.synced = true;
                 await dbInstance.send({ ...data });
