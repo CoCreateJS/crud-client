@@ -95,10 +95,7 @@ const CoCreateCRUD = {
                 !this.socket.connected ||
                 (type && response?.[type]?.length)
             ) {
-                if (
-                    type !== "object" ||
-                    response?.object[0]?.organization_id
-                ) {
+                if (response?.object[0]?.organization_id) {
                     this.socket.send(response);
                     return response;
                 }
@@ -111,7 +108,7 @@ const CoCreateCRUD = {
             }
         }
 
-        return this.socket.send(response || data);
+        return await this.socket.send(response || data);
     },
 
     listen: function (method, callback) {
