@@ -61,9 +61,11 @@ const CoCreateCRUD = {
      *
      * @see https://cocreate.app/docs/objects.html#send
      * @param {Object} data - Configuration and parameters payload
+     * @param {Object} [options] - Local request options
+     * @param {boolean} [options.cache=true] - Allow reads from the browser cache
      * @return {Promise} The data read from the defined db's. Errors are logged and can be found in the data object
      */
-    send: async function (data) {
+    send: async function (data, options = {}) {
         if (!data) return null;
         if (!data.method) {
             // TODO: errorhandler(data, 'data.method is required')
@@ -86,7 +88,7 @@ const CoCreateCRUD = {
 
         let response;
         if (
-            isBrowser && dbInstance
+            isBrowser && dbInstance && options.cache !== false
         ) {
             response = await dbInstance.send(data);
 
@@ -95,14 +97,15 @@ const CoCreateCRUD = {
                 !this.socket.connected ||
                 (type && response?.[type]?.length)
             ) {
-                if (response?.object[0]?.organization_id) {
+                if (response?.object && response?.object[0] && response?.object[0]?.organization_id) {
                     this.socket.send(response);
                     return response;
                 }
             } else if (
-                typeof data["storage"] === "string" ||
-                (Array.isArray(data["storage"]) &&
-                    data["storage"].length === 1)
+                data.storage === "indexeddb" ||
+                (Array.isArray(data.storage) &&
+                    data.storage.length === 1 &&
+                    data.storage[0] === "indexeddb")
             ) {
                 return response;
             }
