@@ -1,6 +1,6 @@
 {
   "name": "@cocreate/crud-client",
-  "version": "1.38.0",
+  "version": "1.39.0",
   "description": "A high-performance, multi-tenant CRUD client for CoCreate. Execute create, read, update, delete, and real-time synchronization operations against one or multiple storage providers using a unified API. Supports parallel persistence across databases such as MongoDB, SQLite, PostgreSQL, and other CoCreate storage adapters.",
   "keywords": [
     "cocreate",
