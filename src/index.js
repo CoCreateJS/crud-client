@@ -19,7 +19,7 @@
  * Commercial Licensing Information:
  * For commercial use of this software without the copyleft provisions of the AGPLv3,
  * you must obtain a commercial license from CoCreate LLC.
- * For details, visit <https://cocreate.app/licenses/> or contact us at sales@cocreate.app.
+ * For details, visit <https://CoCreateJS.com/licenses/> or contact us at sales@CoCreateJS.com.
  */
 
 import CoCreateSocket from "@cocreate/socket-client";
@@ -59,7 +59,7 @@ const CoCreateCRUD = {
     /**
      * Performs a crud action using the define method.
      *
-     * @see https://cocreate.app/docs/objects.html#send
+     * @see https://CoCreateJS.com/docs/objects.html#send
      * @param {Object} data - Configuration and parameters payload
      * @param {Object} [options] - Local request options
      * @param {boolean} [options.cache=true] - Allow reads from the browser cache

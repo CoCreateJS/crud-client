@@ -59,9 +59,9 @@
   "author": "CoCreate LLC",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/CoCreate-app/CoCreate-crud-client/issues"
+    "url": "https://github.com/CoCreateJS/CoCreate-crud-client/issues"
   },
-  "homepage": "https://cocreate.app/docs/crud-client",
+  "homepage": "https://CoCreateJS.com/docs/crud-client",
   "funding": {
     "type": "GitHub Sponsors ❤",
     "url": "https://github.com/sponsors/CoCreate-app"
