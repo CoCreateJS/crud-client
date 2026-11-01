@@ -30,23 +30,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "cocreate": {
-    "environment": [
-      "client",
-      "server"
-    ],
-    "interface": {
-      "schemaVersion": 1,
-      "summary": "A high-performance, multi-tenant CRUD client for CoCreate. Execute create, read, update, delete, and real-time synchronization operations against one or multiple storage providers using a unified API. Supports parallel persistence across databases such as MongoDB, SQLite, PostgreSQL, and other CoCreate storage adapters.",
-      "source": "src/index.js",
-      "api": {
-        "exports": [
-          "database",
-          "socket"
-        ]
-      }
-    }
-  },
   "scripts": {
     "start": "webpack --config webpack.config.js",
     "build": "webpack --mode=production --config webpack.config.js",
