@@ -1,3 +1,42 @@
+# [2.0.0](https://github.com/CoCreateJS/crud-client/compare/v1.35.2...v2.0.0) (2026-11-02)
+
+
+### Bug Fixes
+
+* add Deno specific entries to .gitignore ([f8698da](https://github.com/CoCreateJS/crud-client/commit/f8698da35c083cb4ea3c9f640626395f520bc6da))
+* avoid duplicate local CRUD messages ([24eb759](https://github.com/CoCreateJS/crud-client/commit/24eb759106a971dda5e58ee2e8844a1c56440d3e))
+* bump [@cocreate](https://github.com/cocreate) dependencies ([6a8a885](https://github.com/CoCreateJS/crud-client/commit/6a8a885ef4dc6eacebaffdc3a58230ea2c8d23d3))
+* bump versions ([baa7ef2](https://github.com/CoCreateJS/crud-client/commit/baa7ef28af034d2a568294fbf9405a5417e05584))
+* bump versions ([44988ab](https://github.com/CoCreateJS/crud-client/commit/44988ab5a7b4a69be5e7901b345ac099f6b0a83b))
+* default database without forcing storage ([d401f18](https://github.com/CoCreateJS/crud-client/commit/d401f187f1c36b9d1ef1bb777cf031e3c8a13f88))
+* guard optional storage selection ([2349e56](https://github.com/CoCreateJS/crud-client/commit/2349e56ee3c938738012900abe3fc4a7795b9b73))
+* handle empty object responses ([c793802](https://github.com/CoCreateJS/crud-client/commit/c793802605ba12ce4393a993721b36d08402b8dd))
+* load release config for ESM package ([786ed4f](https://github.com/CoCreateJS/crud-client/commit/786ed4f74c859fb86b148d996ca6fc100a8289f4))
+* preserve database context during sync ([5e46d9c](https://github.com/CoCreateJS/crud-client/commit/5e46d9cd54a3cd3450c343060dc3a7b067826ebe))
+* remove deprecated allowScripts section from package.json ([a953a50](https://github.com/CoCreateJS/crud-client/commit/a953a506bf05b02f3a57590750ab3479efa1ab65))
+* remove deprecated allowScripts section from package.json ([d4f6dc5](https://github.com/CoCreateJS/crud-client/commit/d4f6dc53598480c49453e39409092b8e3cf6efae))
+* remove trailing slash from node_modules entry in .gitignore ([e79faa8](https://github.com/CoCreateJS/crud-client/commit/e79faa85e9f80c5f8e474ebaabe1556cf0e2af65))
+* removed indexdb from data.storage ([8f20708](https://github.com/CoCreateJS/crud-client/commit/8f20708ae4d63d4d88a165db93369834b1866390))
+* replace legacy $filter field with filter ([ba3b1f1](https://github.com/CoCreateJS/crud-client/commit/ba3b1f103dd8d864c3870443d6b64aa9437e96f8))
+* safely access CRUD response object ([394fbc5](https://github.com/CoCreateJS/crud-client/commit/394fbc5721d8be426b8652f6d087d289744d7fb7))
+* simplify CRUD response status handling ([26ae969](https://github.com/CoCreateJS/crud-client/commit/26ae9697e602bff432539ab4ed79a39dafe6079b))
+* update git url ([658faf2](https://github.com/CoCreateJS/crud-client/commit/658faf26eb7595c6280a314ba9619e2846ef7ffb))
+* update GitHub Actions to use latest versions and sync package.json description ([2ca02b9](https://github.com/CoCreateJS/crud-client/commit/2ca02b99bba9589fcc53bc0aad9bcdc29ceb4516))
+* update import path for IndexedDB module ([7f10805](https://github.com/CoCreateJS/crud-client/commit/7f108058fe2fa5dc02656e19085219086aab5fa6))
+
+
+### Features
+
+* align CoCreate repository and package naming ([8a93340](https://github.com/CoCreateJS/crud-client/commit/8a933408866140e99a2a552f943ec9cb2657ee95))
+* register namespace attributes ([4d0560f](https://github.com/CoCreateJS/crud-client/commit/4d0560fb853616b629e7d5546b04b7df85a1d49d))
+* replace uuid import and usage with utils ([4879012](https://github.com/CoCreateJS/crud-client/commit/4879012f3426d4b4fb39f583b45f9e3c0e0d2fb6))
+* streamline module imports and improve code structure in index.js ([13c3ca7](https://github.com/CoCreateJS/crud-client/commit/13c3ca7a7b0b2aed0d92586dc6b25bbff53ffc75))
+
+
+### BREAKING CHANGES
+
+* consumers must use the renamed CoCreate package and repository identities; the previous prefixed names are no longer supported.
+
 ## [1.35.2](https://github.com/CoCreateJS/CoCreate-crud-client/compare/v1.35.1...v1.35.2) (2026-07-19)
 
 
