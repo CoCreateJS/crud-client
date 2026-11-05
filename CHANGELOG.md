@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/CoCreateJS/crud-client/compare/v2.0.0...v2.0.1) (2026-11-05)
+
+
+### Bug Fixes
+
+* upgrade CoCreate dependencies to v2 ([21ae491](https://github.com/CoCreateJS/crud-client/commit/21ae491a258804d416188b377f9e6e19a90f4687))
+
 # [2.0.0](https://github.com/CoCreateJS/crud-client/compare/v1.35.2...v2.0.0) (2026-11-02)
 
 
