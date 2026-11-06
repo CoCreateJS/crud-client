@@ -22,7 +22,7 @@
  * For details, visit <https://CoCreateJS.com/licenses/> or contact us at sales@CoCreateJS.com.
  */
 
-import CoCreateSocket from "@cocreate/socket-client";
+import { SocketClient as CoCreateSocket } from "@cocreate/socket";
 import {
     ObjectId,
     getValueFromObject,

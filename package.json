@@ -53,7 +53,7 @@
   "main": "./src/index.js",
   "dependencies": {
     "@cocreate/indexeddb": "^2.0.0",
-    "@cocreate/socket-client": "^2.0.0"
+    "@cocreate/socket": "^2.0.1"
   },
   "devDependencies": {
     "@cocreate/webpack": "^2.0.0"
